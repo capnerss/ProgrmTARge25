@@ -94,9 +94,9 @@ namespace TARge25Shop.SeleniumTesting
             IWebElement IndexCrewSpaceship = driver.FindElement(By.Id("IndexCrewSpaceship"));
             var spaceShipCrewData = IndexCrewSpaceship.Text;
 
-            Assert.Equal(spaceShipNameData, "i add name for spachop2");
-            Assert.Equal(spaceTypeNameData, "i add type for spachop2");
-            Assert.Equal(spaceShipCrewData, "12342");
+            Assert.Equal(spaceShipNameData, "2i add name for spachop2");
+            Assert.Equal(spaceTypeNameData, "2i add type for spachop2");
+            Assert.Equal(spaceShipCrewData, "212342");
 
         }
 
@@ -182,16 +182,16 @@ namespace TARge25Shop.SeleniumTesting
             {
                 IWebElement cu_NameEntrySpaceship = driver.FindElement(By.Id("CU_NameEntrySpaceShip"));
                 cu_NameEntrySpaceship.Clear();
-                cu_NameEntrySpaceship.SendKeys("i add name for spachop2");
+                cu_NameEntrySpaceship.SendKeys("2i add name for spachop2");
                 IWebElement cu_ShipTypeSpaceship = driver.FindElement(By.Id("CU_ShipTypeEntrySpaceShip"));
                 cu_ShipTypeSpaceship.Clear();
-                cu_ShipTypeSpaceship.SendKeys("i add type for spachop2");
+                cu_ShipTypeSpaceship.SendKeys("2i add type for spachop2");
                 IWebElement cu_CrewEntrySpaceship = driver.FindElement(By.Id("CU_CrewEntrySpaceShip"));
                 cu_CrewEntrySpaceship.Clear();
-                cu_CrewEntrySpaceship.SendKeys("12342");
+                cu_CrewEntrySpaceship.SendKeys("212342");
                 IWebElement cu_EnginePowerSpaceship = driver.FindElement(By.Id("CU_EnginePowerEntrySpaceShip"));
                 cu_EnginePowerSpaceship.Clear();
-                cu_EnginePowerSpaceship.SendKeys("654672");
+                cu_EnginePowerSpaceship.SendKeys("2654672");
 
             }
         }
