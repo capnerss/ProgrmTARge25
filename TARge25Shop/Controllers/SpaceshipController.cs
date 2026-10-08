@@ -57,6 +57,7 @@ namespace TARge25Shop.Controllers
                 ShipType = vm.ShipType,
                 Crew = vm.Crew,
                 EnginePower = vm.EnginePower
+
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev. See on

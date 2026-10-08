@@ -27,6 +27,11 @@ namespace TARge25Shop.ApplicationServices.Services
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
 
+            if (kindergarten.ChildrenCount <= 0)
+            {
+                kindergarten.ChildrenCount = 4;
+            }
+
             _context.Kindergartens.Add(kindergarten);
             await _context.SaveChangesAsync();
 

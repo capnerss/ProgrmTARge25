@@ -25,6 +25,14 @@ namespace TARge25Shop.ApplicationServices.Services
         {
             //siin peab tegema vaheinstansi dto ja domain vahel,
             //et andmed liiguvad dto-st domain objekt
+            if (dto.Crew <= 3)
+            {
+                dto.Crew = 4;
+            }
+            if (dto.EnginePower <= 0)
+            {
+                dto.EnginePower = 1;
+            }
             Spaceship spaceShip = new();
 
             spaceShip.Id = Guid.NewGuid();
