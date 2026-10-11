@@ -22,6 +22,29 @@ namespace TARge25Shop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TARge25Shop.Core.Domain.FileToDatabase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("KindergartenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RealEstateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileToDatabases");
+                });
+
             modelBuilder.Entity("TARge25Shop.Core.Domain.Kindergarten", b =>
                 {
                     b.Property<Guid>("Id")

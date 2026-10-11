@@ -10,5 +10,8 @@ namespace TARge25Shop.Models.Kindergarten
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public List<KindergartenImageViewModel> Images { get; set; }
+            = new List<KindergartenImageViewModel>();
     }
 }

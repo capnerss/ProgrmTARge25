@@ -10,5 +10,8 @@ namespace TARge25Shop.Core.Dto
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+        public List<Microsoft.AspNetCore.Http.IFormFile>? Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> Image { get; set; } = new List<FileToDatabaseDto>();
     }
 }
