@@ -1,0 +1,40 @@
+﻿@model TARge25Shop.Models.ChuckNorris.JokeViewModel
+
+<div class="container">
+    <div class="h1">Chuck Norris Joke Details</div>
+    <hr />
+    <dl>
+        <div>
+            <label asp-for="Id" class="col-sm-2"></label>
+            @Html.DisplayFor(model => model.Id)
+        </div>
+
+        <div>
+            <label asp-for="Categories" class="col-sm-2"></label>
+            @Html.DisplayFor(model => model.Categories)
+        </div>
+        <div>
+            <label asp-for="CreatedAt" class="col-sm-2"></label>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </div>
+        <div>
+            <label asp-for="UpdatedAt" class="col-sm-2"></label>
+            @Html.DisplayFor(model => model.UpdatedAt)
+		</div>
+            <label asp-for="IconUrl" class="col-sm-2"></label>
+            <img src="@Model.IconUrl" alt="Chuck Norris Icon" />
+        </div>
+
+        <div>
+            <label asp-for="Url" class="col-sm-2"></label>
+            <a href="@Html.DisplayFor(model => model.Url)">@Html.DisplayFor(model => model.Url)</a>
+        </div>
+
+        <div>
+            <label asp-for="Value" class="col-sm-2"></label>
+            @Html.DisplayFor(model => model.Value)
+        </div>
+    </dl>
+
+    <a asp-action="Index" asp-controller="ChuckNorris">Back</a>
+</div>
