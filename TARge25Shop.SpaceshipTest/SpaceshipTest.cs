@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Data;
 using Xunit;
 
 namespace TARge25Shop.SpaceshipTest
@@ -110,14 +111,17 @@ namespace TARge25Shop.SpaceshipTest
         [Fact]
         public async Task Should_UpdateSpaceshipByID_WhenUpdatingData()
         {
-            //ülesseade
-            var guid = new Guid("68eb8abd-086a-4c8b-9695-71234143f709");
+            //
 
             SpaceshipDto dto = MockSpaceshipData();
+            var result = await Svc<ISpaceshipServices>().Create(dto);
+            Guid guid = (Guid)result.Id;
+
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
 
             SpaceshipDto domain = new();
 
-            domain.Id = Guid.Parse("68eb8abd-086a-4c8b-9695-71234143f709");
+            domain.Id = guid;
             domain.EnginePower = 10000000;
             domain.Name = "Igor Mang 2";
             domain.ShipType = "püramiid";
@@ -126,16 +130,18 @@ namespace TARge25Shop.SpaceshipTest
             domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
 
             //tegevus
-            await Svc<ISpaceshipServices>().Update(dto);
+            await Svc<ISpaceshipServices>().Update(domain);
+           // Svc<TARge25ShopContext>().ChangeTracker.Clear();
+            var result2 = await Svc<ISpaceshipServices>().DetailAsync(guid);
 
             //kontroll
-            Assert.Equal(domain.Id, guid);
-            Assert.NotEqual(dto.EnginePower, domain.EnginePower);
-            Assert.NotEqual(dto.Name, domain.Name);
-            Assert.DoesNotMatch(dto.Crew.ToString(), domain.Crew.ToString());
-            Assert.DoesNotMatch(dto.ShipType, domain.ShipType);
-            Assert.Equal(dto.CreatedAt, domain.CreatedAt);
-            Assert.NotEqual(dto.UpdatedAt, domain.CreatedAt);
+            Assert.Equal(domain.Id, result2.Id);
+            Assert.NotEqual(dto.EnginePower, result2.EnginePower);
+            Assert.NotEqual(dto.Name, result2.Name);
+            Assert.DoesNotMatch(dto.Crew.ToString(), result2.Crew.ToString());
+            Assert.DoesNotMatch(dto.ShipType, result2.ShipType);
+            Assert.Equal(dto.CreatedAt, result2.CreatedAt);
+            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
         }
         [Fact]
         public async Task ShouldNot_UpdateSpaceshipByID_WhenNoDataIsUpdated()
@@ -151,6 +157,7 @@ namespace TARge25Shop.SpaceshipTest
             //kontroll
             Assert.NotEqual(createdSpaceship.Id, result.Id);
         }
+       
         //kuna mootor ei saa olla negatiivse võimsusega, kontrollime et ei saaks
         //lisada võimetut mootorit ega negatiivse võimsusega mootorit
         [Fact]
@@ -232,6 +239,7 @@ namespace TARge25Shop.SpaceshipTest
                 UpdatedAt = DateTime.MinValue,
             };
         }
+       
 
 
         /* üleval testid, all abimeetodid */

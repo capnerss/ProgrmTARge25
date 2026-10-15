@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Data;
 using Xunit;
 
 namespace TARge25Shop.SpaceshipTest
@@ -94,14 +95,15 @@ namespace TARge25Shop.SpaceshipTest
         [Fact]
         public async Task Should_UpdateKindergartenByID_WhenUpdatingData()
         {
-            //ülesseade
-            var guid = new Guid("68eb8abd-086a-4c8b-9695-71234143f709");
-
             KindergartenDto dto = MockKindergartenData();
+            var result = await Svc<IKindergartenServices>().Create(dto);
+            Guid guid = (Guid)result.Id;
+
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
 
             KindergartenDto domain = new();
 
-            domain.Id = Guid.Parse("68eb8abd-086a-4c8b-9695-71234143f709");
+            domain.Id = guid;
             domain.ChildrenCount = 10000000;
             domain.TeacherName = "Igor Mang 2";
             domain.KindergartenName = "püramiid";
@@ -109,17 +111,92 @@ namespace TARge25Shop.SpaceshipTest
             domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
             domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
 
+
             //tegevus
-            await Svc<IKindergartenServices>().Update(dto);
+            await Svc<IKindergartenServices>().Update(domain);
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
+            var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
 
             //kontroll
-            Assert.Equal(domain.Id, guid);
-            Assert.NotEqual(dto.ChildrenCount, domain.ChildrenCount);
-            Assert.NotEqual(dto.TeacherName, domain.TeacherName);
-            Assert.DoesNotMatch(dto.GroupName.ToString(), domain.GroupName.ToString());
-            Assert.DoesNotMatch(dto.KindergartenName, domain.KindergartenName);
-            Assert.Equal(dto.CreatedAt, domain.CreatedAt);
-            Assert.NotEqual(dto.UpdatedAt, domain.CreatedAt);
+            Assert.Equal(result.Id, result2.Id);
+            Assert.NotEqual(dto.ChildrenCount, result2.ChildrenCount);
+            Assert.NotEqual(dto.TeacherName, result2.TeacherName);
+            Assert.DoesNotMatch(dto.GroupName, result2.GroupName);
+            Assert.DoesNotMatch(dto.KindergartenName, result2.KindergartenName);
+            Assert.Equal(dto.CreatedAt,result2.CreatedAt);
+            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
+        }
+        [Fact]
+        public async Task Should_UpdateKindergartenTeacherNameByID_WhenUpdatingTeacherName()
+        {
+            //
+
+            KindergartenDto dto = MockKindergartenData();
+            var result = await Svc<IKindergartenServices>().Create(dto);
+            Guid guid = (Guid)result.Id;
+
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+            KindergartenDto domain = new();
+
+            domain.Id = guid;
+            domain.ChildrenCount = dto.ChildrenCount;
+            domain.TeacherName = "Name";
+            domain.KindergartenName = dto.KindergartenName;
+            domain.GroupName = dto.GroupName;
+            domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
+            domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
+
+            //tegevus
+            await Svc<IKindergartenServices>().Update(domain);
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
+            var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
+
+            //kontroll
+            Assert.Equal(dto.Id, result2.Id);
+            Assert.NotEqual(dto.TeacherName, result2.TeacherName);
+            Assert.Equal(dto.ChildrenCount, result2.ChildrenCount);
+            //Assert.Equal(dto.Name, result2.Name);
+            Assert.Matches(dto.KindergartenName, result2.KindergartenName);
+            Assert.Matches(dto.GroupName, result2.GroupName);
+            Assert.Equal(dto.CreatedAt, result2.CreatedAt);
+            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
+        }
+        [Fact]
+        public async Task Should_UpdateKindergartenChildrenCountByID_WhenUpdatingChildrenCoun()
+        {
+            //
+
+            KindergartenDto dto = MockKindergartenData();
+            var result = await Svc<IKindergartenServices>().Create(dto);
+            Guid guid = (Guid)result.Id;
+
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+            KindergartenDto domain = new();
+
+            domain.Id = guid;
+            domain.ChildrenCount = 100;
+            domain.TeacherName = dto.TeacherName;
+            domain.KindergartenName = dto.KindergartenName;
+            domain.GroupName = dto.GroupName;
+            domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
+            domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
+
+            //tegevus
+            await Svc<IKindergartenServices>().Update(domain);
+            Svc<TARge25ShopContext>().ChangeTracker.Clear();
+            var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
+
+            //kontroll
+            Assert.Equal(dto.Id, result2.Id);
+            Assert.Equal(dto.TeacherName, result2.TeacherName);
+            Assert.NotEqual(dto.ChildrenCount, result2.ChildrenCount);
+            //Assert.Equal(dto.Name, result2.Name);
+            Assert.Matches(dto.KindergartenName, result2.KindergartenName);
+            Assert.Matches(dto.GroupName, result2.GroupName);
+            Assert.Equal(dto.CreatedAt, result2.CreatedAt);
+            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
         }
         [Fact]
         public async Task ShouldNot_UpdateKindergartenByID_WhenNoDataIsUpdated()
