@@ -69,11 +69,11 @@ namespace TARge25Shop.SpaceshipTest
             KindergartenDto dto = MockKindergartenData();
 
             // tegevus
-            var addSpaceship = await Svc<IKindergartenServices>().Create(dto);
-            var deleteSpaceship = await Svc<IKindergartenServices>().Delete((Guid)addSpaceship.Id);
+            var addkinderGarten = await Svc<IKindergartenServices>().Create(dto);
+            var deletekinderGarten = await Svc<IKindergartenServices>().Delete((Guid)addkinderGarten.Id);
 
             // kontroll
-            Assert.Equal(addSpaceship.Id, deleteSpaceship.Id);
+            Assert.Equal(addkinderGarten.Id, deletekinderGarten.Id);
         }
 
         [Fact]
@@ -126,78 +126,7 @@ namespace TARge25Shop.SpaceshipTest
             Assert.Equal(dto.CreatedAt,result2.CreatedAt);
             Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
         }
-        [Fact]
-        public async Task Should_UpdateKindergartenTeacherNameByID_WhenUpdatingTeacherName()
-        {
-            //
-
-            KindergartenDto dto = MockKindergartenData();
-            var result = await Svc<IKindergartenServices>().Create(dto);
-            Guid guid = (Guid)result.Id;
-
-            Svc<TARge25ShopContext>().ChangeTracker.Clear();
-
-            KindergartenDto domain = new();
-
-            domain.Id = guid;
-            domain.ChildrenCount = dto.ChildrenCount;
-            domain.TeacherName = "Name";
-            domain.KindergartenName = dto.KindergartenName;
-            domain.GroupName = dto.GroupName;
-            domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
-            domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
-
-            //tegevus
-            await Svc<IKindergartenServices>().Update(domain);
-            Svc<TARge25ShopContext>().ChangeTracker.Clear();
-            var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
-
-            //kontroll
-            Assert.Equal(dto.Id, result2.Id);
-            Assert.NotEqual(dto.TeacherName, result2.TeacherName);
-            Assert.Equal(dto.ChildrenCount, result2.ChildrenCount);
-            //Assert.Equal(dto.Name, result2.Name);
-            Assert.Matches(dto.KindergartenName, result2.KindergartenName);
-            Assert.Matches(dto.GroupName, result2.GroupName);
-            Assert.Equal(dto.CreatedAt, result2.CreatedAt);
-            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
-        }
-        [Fact]
-        public async Task Should_UpdateKindergartenChildrenCountByID_WhenUpdatingChildrenCoun()
-        {
-            //
-
-            KindergartenDto dto = MockKindergartenData();
-            var result = await Svc<IKindergartenServices>().Create(dto);
-            Guid guid = (Guid)result.Id;
-
-            Svc<TARge25ShopContext>().ChangeTracker.Clear();
-
-            KindergartenDto domain = new();
-
-            domain.Id = guid;
-            domain.ChildrenCount = 100;
-            domain.TeacherName = dto.TeacherName;
-            domain.KindergartenName = dto.KindergartenName;
-            domain.GroupName = dto.GroupName;
-            domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
-            domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
-
-            //tegevus
-            await Svc<IKindergartenServices>().Update(domain);
-            Svc<TARge25ShopContext>().ChangeTracker.Clear();
-            var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
-
-            //kontroll
-            Assert.Equal(dto.Id, result2.Id);
-            Assert.Equal(dto.TeacherName, result2.TeacherName);
-            Assert.NotEqual(dto.ChildrenCount, result2.ChildrenCount);
-            //Assert.Equal(dto.Name, result2.Name);
-            Assert.Matches(dto.KindergartenName, result2.KindergartenName);
-            Assert.Matches(dto.GroupName, result2.GroupName);
-            Assert.Equal(dto.CreatedAt, result2.CreatedAt);
-            Assert.NotEqual(dto.UpdatedAt, result2.CreatedAt);
-        }
+        
         [Fact]
         public async Task ShouldNot_UpdateKindergartenByID_WhenNoDataIsUpdated()
         {
@@ -214,7 +143,7 @@ namespace TARge25Shop.SpaceshipTest
         }
         
         [Fact]
-        public async Task ShouldNot_CreateKindergartenWithNegativeEnginePower_WhenEnginePowerNegative()
+        public async Task ShouldNot_CreateKindergartenWithNegativeChildrenCount_WhenChildrenCountNegative()
         {
             //ülesseade
             KindergartenDto dto = MockKindergartenData(true);
@@ -228,7 +157,7 @@ namespace TARge25Shop.SpaceshipTest
         }
 
         [Fact]
-        public async Task ShouldNot_CreateKindergarten_WhenCrewIsThreeOrLess()
+        public async Task SShouldNot_CreateKindergarten_WhenChildrenCountIsThreeOrLess()
         {
             //ülesseade
             KindergartenDto dto = MockKindergartenData();
@@ -269,8 +198,322 @@ namespace TARge25Shop.SpaceshipTest
             Assert.NotEqual(deleteResult.Id, createdKindergarten1.Id);
             Assert.Equal(createdKindergarten1, spaceshipindb);
         }
+		// 1. Kontrollib, et olematu ID-ga lasteaia pärimisel andmebaasist tagastatakse null väärtus.
+		[Fact]
+		public async Task Should_ReturnNull_WhenKindergartenNotFoundById()
+		{
+			// ülesseade
+			Guid nonExistentGuid = Guid.NewGuid();
 
-        private KindergartenDto MockKindergartenNullData()
+			// tegevus
+			var result = await Svc<IKindergartenServices>().DetailAsync(nonExistentGuid);
+
+			// kontroll
+			Assert.Null(result);
+		}
+
+		// 2. Kontrollib, et olematu ID-ga lasteaia kustutamisel ei leita kirjet ning tagastatakse null.
+		[Fact]
+		public async Task ShouldNot_DeleteKindergarten_WhenIdDoesNotExist()
+		{
+			// ülesseade
+			Guid fakeGuid = Guid.NewGuid();
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Delete(fakeGuid);
+
+			// kontroll
+			Assert.Null(result);
+		}
+
+		// 3. Kontrollib, et olematu ID-ga lasteaia uuendamisel viskab EF Core vea DbUpdateConcurrencyException.
+		[Fact]
+		public async Task ShouldNot_UpdateKindergarten_WhenIdDoesNotExist()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.Id = Guid.NewGuid();
+
+			// tegevus ja kontroll
+			// EF Core viskab DbUpdateConcurrencyException erindi, kui objekti andmebaasist ei leita
+			await Assert.ThrowsAsync<Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException>(async () =>
+			{
+				await Svc<IKindergartenServices>().Update(dto);
+			});
+		}
+
+		// 4. Kontrollib, et lasteaia loomisel tühja rühma nimega salvestatakse kirje edukalt tühja sõnega.
+		[Fact]
+		public async Task Should_CreateKindergarten_WhenGroupNameIsEmpty()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.GroupName = string.Empty;
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Create(dto);
+
+			// kontroll
+			Assert.NotNull(result);
+			Assert.Equal(string.Empty, result.GroupName);
+		}
+
+		// 5. Kontrollib, et lasteaia loomisel tühja asutuse nimega salvestatakse kirje edukalt tühja sõnega.
+		[Fact]
+		public async Task Should_CreateKindergarten_WhenKindergartenNameIsEmpty()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.KindergartenName = string.Empty;
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Create(dto);
+
+			// kontroll
+			Assert.NotNull(result);
+			Assert.Equal(string.Empty, result.KindergartenName);
+		}
+
+		// 6. Kontrollib, et lasteaia loomisel tühja õpetaja nimega salvestatakse kirje edukalt tühja sõnega.
+		[Fact]
+		public async Task Should_CreateKindergarten_WhenTeacherNameIsEmpty()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.TeacherName = string.Empty;
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Create(dto);
+
+			// kontroll
+			Assert.NotNull(result);
+			Assert.Equal(string.Empty, result.TeacherName);
+		}
+
+		// 7. Kontrollib, et lasteaia saab edukalt luua piiripealse väärtusega, kui laste arv on täpselt 3.
+		[Fact]
+		public async Task Should_CreateKindergarten_WhenChildrenCountIsExactlyThree()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.ChildrenCount = 3;
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Create(dto);
+
+			// kontroll
+			Assert.NotNull(result);
+			Assert.Equal(3, result.ChildrenCount);
+		}
+
+		// 8. Kontrollib, et loodud lasteaia pärimisel selle ID järgi vastavad andmed täielikult salvestatule.
+		[Fact]
+		public async Task Should_GetCorrectKindergarten_WhenQueriedByCreatedId()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			var created = await Svc<IKindergartenServices>().Create(dto);
+
+			// tegevus
+			var fetched = await Svc<IKindergartenServices>().DetailAsync((Guid)created.Id);
+
+			// kontroll
+			Assert.NotNull(fetched);
+			Assert.Equal(created.Id, fetched.Id);
+			Assert.Equal(created.KindergartenName, fetched.KindergartenName);
+			Assert.Equal(created.TeacherName, fetched.TeacherName);
+		}
+
+		// 9. Kontrollib, et andmete uuendamisel muutub UpdatedAt ajatempel võrdseks või uuemaks kui CreatedAt.
+		[Fact]
+		public async Task Should_UpdateTimestamp_WhenKindergartenIsUpdated()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			var created = await Svc<IKindergartenServices>().Create(dto);
+
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+			KindergartenDto updateDto = MockKindergartenData(true);
+			updateDto.Id = created.Id;
+			updateDto.CreatedAt = created.CreatedAt;
+
+			// tegevus
+			await Svc<IKindergartenServices>().Update(updateDto);
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+			var resultInDb = await Svc<IKindergartenServices>().DetailAsync((Guid)created.Id);
+
+			// kontroll
+			Assert.NotNull(resultInDb);
+			Assert.True(resultInDb.UpdatedAt >= resultInDb.CreatedAt);
+		}
+
+		// 10. Kontrollib, et lasteaia andmete uuendamisel jääb algne loomise aeg (CreatedAt) andmebaasis muutmata.
+		[Fact]
+		public async Task ShouldNot_ModifyCreatedAt_WhenKindergartenIsUpdated()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			var created = await Svc<IKindergartenServices>().Create(dto);
+			DateTime originalCreatedAt = created.CreatedAt;
+
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+			KindergartenDto updateDto = MockKindergartenData(true);
+			updateDto.Id = created.Id;
+			updateDto.CreatedAt = originalCreatedAt; // säilitame algse loomisaja
+			updateDto.UpdatedAt = DateTime.UtcNow;
+
+			// tegevus
+			await Svc<IKindergartenServices>().Update(updateDto);
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+			var resultInDb = await Svc<IKindergartenServices>().DetailAsync((Guid)created.Id);
+
+			// kontroll
+			Assert.NotNull(resultInDb);
+			Assert.Equal(originalCreatedAt, resultInDb.CreatedAt);
+			Assert.NotEqual(resultInDb.UpdatedAt, resultInDb.CreatedAt);
+		}
+
+		// 11. Kontrollib, et ainult rühma nime muutmisel uueneb rühm, kuid lasteaia nimi jääb samaks.
+		[Fact]
+		public async Task Should_UpdateOnlyGroupName_WhenOnlyGroupChanged()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			var created = await Svc<IKindergartenServices>().Create(dto);
+
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+			KindergartenDto updateDto = new KindergartenDto
+			{
+				Id = created.Id,
+				KindergartenName = created.KindergartenName,
+				TeacherName = created.TeacherName,
+				ChildrenCount = created.ChildrenCount,
+				CreatedAt = created.CreatedAt,
+				UpdatedAt = DateTime.UtcNow,
+				GroupName = "Täiesti Uus Rühm"
+			};
+
+			// tegevus
+			await Svc<IKindergartenServices>().Update(updateDto);
+			var resultInDb = await Svc<IKindergartenServices>().DetailAsync((Guid)created.Id);
+
+			// kontroll
+			Assert.NotNull(resultInDb);
+			Assert.Equal("Täiesti Uus Rühm", resultInDb.GroupName);
+			Assert.Equal(created.KindergartenName, resultInDb.KindergartenName);
+		}
+
+		// 12. Kontrollib, et juba kustutatud lasteaia teistkordsel kustutamisel tagastatakse null, kuna kirjet enam pole.
+		[Fact]
+		public async Task ShouldNot_DeleteTwice_WhenKindergartenAlreadyDeleted()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			var created = await Svc<IKindergartenServices>().Create(dto);
+
+			// tegevus
+			var firstDelete = await Svc<IKindergartenServices>().Delete((Guid)created.Id);
+			var secondDelete = await Svc<IKindergartenServices>().Delete((Guid)created.Id);
+
+			// kontroll
+			Assert.NotNull(firstDelete);
+			Assert.Null(secondDelete);
+		}
+
+		// 13. Kontrollib, et negatiivse laste arvuga lasteaeda ei looda või määratakse laste arvuks positiivne väärtus.
+		[Fact]
+		public async Task ShouldNot_CreateKindergarten_WhenChildrenCountIsNegative()
+		{
+			// ülesseade
+			KindergartenDto dto = MockKindergartenData();
+			dto.ChildrenCount = -15;
+
+			// tegevus
+			var result = await Svc<IKindergartenServices>().Create(dto);
+
+			// kontroll
+			Assert.True(result == null || result.ChildrenCount > 0);
+		}
+		// 14. Kontrollib, et õpetaja nime muutmisel uueneb ainult õpetaja nimi ja teised väljad säilitavad väärtused.
+		[Fact]
+		public async Task Should_UpdateKindergartenTeacherNameByID_WhenUpdatingTeacherName()
+		{
+			//
+
+			KindergartenDto dto = MockKindergartenData();
+			var result = await Svc<IKindergartenServices>().Create(dto);
+			Guid guid = (Guid)result.Id;
+
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+			KindergartenDto domain = new();
+
+			domain.Id = guid;
+			domain.ChildrenCount = dto.ChildrenCount;
+			domain.TeacherName = "Name";
+			domain.KindergartenName = dto.KindergartenName;
+			domain.GroupName = dto.GroupName;
+			domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
+			domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
+
+			//tegevus
+			await Svc<IKindergartenServices>().Update(domain);
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+			var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
+
+			//kontroll
+			Assert.Equal(result.Id, result2.Id);
+			Assert.NotEqual(dto.TeacherName, result2.TeacherName);
+			Assert.Equal(dto.ChildrenCount, result2.ChildrenCount);
+			//Assert.Equal(dto.Name, result2.Name);
+			Assert.Equal(dto.KindergartenName, result2.KindergartenName);
+			Assert.Equal(dto.GroupName, result2.GroupName);
+			Assert.NotEqual(dto.UpdatedAt, result2.UpdatedAt);
+			Assert.True(result2.UpdatedAt > result2.CreatedAt);
+		}
+
+		// 15. Kontrollib, et laste arvu muutmisel uueneb ainult laste arv ja muud kirje väljad jäävad samaks.
+		[Fact]
+		public async Task Should_UpdateKindergartenChildrenCountByID_WhenUpdatingChildrenCount()
+		{
+			//
+
+			KindergartenDto dto = MockKindergartenData();
+			var result = await Svc<IKindergartenServices>().Create(dto);
+			Guid guid = (Guid)result.Id;
+
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+
+			KindergartenDto domain = new();
+
+			domain.Id = guid;
+			domain.ChildrenCount = 100;
+			domain.TeacherName = dto.TeacherName;
+			domain.KindergartenName = dto.KindergartenName;
+			domain.GroupName = dto.GroupName;
+			domain.CreatedAt = dto.CreatedAt;//  <-- ei tohi muutuda Update korral, tuleb võtta olemasolevast objektist.
+			domain.UpdatedAt = DateTime.UtcNow;//  <-- PEAB muutuma Update korral
+
+			//tegevus
+			await Svc<IKindergartenServices>().Update(domain);
+			Svc<TARge25ShopContext>().ChangeTracker.Clear();
+			var result2 = await Svc<IKindergartenServices>().DetailAsync(guid);
+
+			//kontroll
+			Assert.Equal(result.Id, result2.Id);
+			Assert.Equal(dto.TeacherName, result2.TeacherName);
+			Assert.NotEqual(dto.ChildrenCount, result2.ChildrenCount);
+			//Assert.Equal(dto.Name, result2.Name);
+			Assert.Equal(dto.KindergartenName, result2.KindergartenName);
+			Assert.Equal(dto.GroupName, result2.GroupName);
+			Assert.NotEqual(dto.UpdatedAt, result2.UpdatedAt);
+			Assert.True(result2.UpdatedAt > result2.CreatedAt);
+		}
+
+		private KindergartenDto MockKindergartenNullData()
         {
             return new KindergartenDto
             {
