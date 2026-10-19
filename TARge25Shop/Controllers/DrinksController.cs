@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TARge25Shop.Core.Dto;
-using TARge25Shop.Core.ServiceInterface;
-using TARge25Shop.Models.Drinks;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Models.Drinks;
 using TARge25Shop.Models.Drinks;
 
 namespace TARge25Shop.Controllers
@@ -42,7 +43,12 @@ namespace TARge25Shop.Controllers
         {
             var dto = new DrinkDto { StrDrink = drink };
 
-            await _drinkServices.DrinkResponseDto(dto);
+            var result = await _drinkServices.DrinkResponseDto(dto);
+
+            if (result == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             var vm = new DrinkViewModel
             {

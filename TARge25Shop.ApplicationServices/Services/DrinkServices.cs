@@ -20,6 +20,12 @@ namespace TARge25Shop.ApplicationServices.Services
                 DrinkResponseDto DrinkDto = new JavaScriptSerializer()
                     .Deserialize<DrinkResponseDto>(json);
 
+                if (DrinkDto?.Drinks == null)
+                {
+                    return null;
+                    
+                }
+
                 dto.IdDrink = DrinkDto.Drinks[0].IdDrink;
                 dto.StrDrink = DrinkDto.Drinks[0].StrDrink;
                 dto.StrDrinkAlternate = DrinkDto.Drinks[0].StrDrinkAlternate;
