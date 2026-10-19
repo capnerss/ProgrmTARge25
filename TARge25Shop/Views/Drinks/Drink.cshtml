@@ -1,0 +1,109 @@
+﻿@model TARge25Shop.Models.Drinks.DrinkViewModel
+
+<div class="container">
+    <h2>Your chosen cocktail: @Html.DisplayFor(model => model.Drink)</h2>
+    <hr />
+    <img src="@Model.StrDrinkThumb"
+         alt="@Model.Drink"
+         class="img-thumbnail"
+         style="max-width: 350px;" />
+    <dl class="row text-dark">
+        <div>
+            <dt class="col-sm-2">
+                Drink Id:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IdDrink)
+            </dd>
+        </div>
+        <div>
+            <dt class="col-sm-2">
+                Alcoholic:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrAlcoholic)
+            </dd>
+        </div>
+        <div>
+            <dt class="col-sm-2">
+                Glass:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrGlass)
+            </dd>
+        </div>
+        <div>
+            <dt class="col-sm-2">
+                Instructions:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrInstructions)
+            </dd>
+        </div>
+        <div>
+            <dt class="col-sm-2">
+                Ingredients and amount:
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure1)
+                @Html.DisplayFor(model => model.StrIngredient1)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure2)
+                @Html.DisplayFor(model => model.StrIngredient2)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure3)
+                @Html.DisplayFor(model => model.StrIngredient3)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure4)
+                @Html.DisplayFor(model => model.StrIngredient4)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure5)
+                @Html.DisplayFor(model => model.StrIngredient5)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure6)
+                @Html.DisplayFor(model => model.StrIngredient6)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure7)
+                @Html.DisplayFor(model => model.StrIngredient7)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure8)
+                @Html.DisplayFor(model => model.StrIngredient8)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure9)
+                @Html.DisplayFor(model => model.StrIngredient9)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure10)
+                @Html.DisplayFor(model => model.StrIngredient10)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure11)
+                @Html.DisplayFor(model => model.StrIngredient11)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure12)
+                @Html.DisplayFor(model => model.StrIngredient12)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure13)
+                @Html.DisplayFor(model => model.StrIngredient13)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure14)
+                @Html.DisplayFor(model => model.StrIngredient14)
+            </dd>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StrMeasure15)
+                @Html.DisplayFor(model => model.StrIngredient15)
+            </dd>
+        </div>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </dl>
