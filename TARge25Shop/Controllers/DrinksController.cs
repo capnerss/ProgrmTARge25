@@ -47,7 +47,9 @@ namespace TARge25Shop.Controllers
 
             if (result == null)
             {
-                return RedirectToAction("Index");
+                ViewBag.Drinks = "Drinks not found";
+                return View("Index");
+
             }
 
             var vm = new DrinkViewModel

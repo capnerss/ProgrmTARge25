@@ -1,5 +1,6 @@
 ﻿@model TARge25Shop.Models.Drinks.DrinkSearchViewModel
 
+
 <h1>Search</h1>
 
 <div class="container">
@@ -9,6 +10,12 @@
                 <h6>Type in the name of the cocktail:</h6>
                 <input asp-for="Drink" class="form-control" />
                 <span asp-validation-for="Drink" class="text-danger"></span>
+                @if (ViewBag.Drinks != null)
+                {
+                    <span class="text-danger">
+                        @ViewBag.Drinks
+                    </span>
+                }
             </div>
         </div>
         <div class="container">
