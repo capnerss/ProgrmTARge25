@@ -1,0 +1,104 @@
+﻿@model TARge25Shop.Models.Weather.WeatherSearchViewModel
+
+@{
+    ViewData["Title"] = "Ilm";
+}
+
+<div>
+    <div>
+        <div>
+            <h1>Hetke ilm</h1>
+            <p>Sisesta linna nime.</p>
+        </div>
+    </div>
+
+    <!-- Search form -->
+    <div>
+        <div>
+            <div>
+                <form asp-action="Index" method="post" autocomplete="off">
+                    <div>
+                        <span>
+                            <i></i>
+                        </span>
+                        <input asp-for="City"
+                               class="form-control"
+                               placeholder="Näiteks: Valga"
+                               required />
+                        <button class="btn btn-primary" type="submit">
+                            Otsi
+                        </button>
+                    </div>
+
+                    <span asp-validation-for="City" class="text-danger"></span>
+
+                    @if (ViewBag.EmptyMessage != null)
+                    {
+                        <div role="alert">
+                            <i></i>
+                            <div>@ViewBag.EmptyMessage</div>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ilma card -->
+    @if (Model?.Result != null)
+    {
+        var weatherInfo = Model.Result.Weather.FirstOrDefault();
+        var iconUrl = weatherInfo != null
+            ? $"https://openweathermap.org/img/wn/{weatherInfo.Icon}@4x.png"
+            : null;
+
+        <div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <h2>@Model.Result.Name, @Model.Result.Sys?.Country</h2>
+                            <span class="text-muted text-capitalize">@(weatherInfo?.Description ?? "Puudub")</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(iconUrl))
+                        {
+                            <img src="@iconUrl" alt="@weatherInfo?.Main" style="width: 80px; height: 80px;" />
+                        }
+                    </div>
+
+                    <!-- Temperatuur -->
+                    <div>
+                        @Math.Round(Model.Result.Main?.Temp ?? 0)°C
+                    </div>
+                    <div>
+                        Tajutav temp.: @Math.Round(Model.Result.Main?.FeelsLike ?? 0)°C
+                    </div>
+
+                    <hr />
+
+                    <!-- Lisad -->
+                    <div>
+                        <div class="col-4">
+                            <div>
+                                <div>Õhuniiskus</div>
+                                <div>@Model.Result.Main?.Humidity %</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <div>Tuulekiirus</div>
+                                <div class="fw-semibold mt-1">@Model.Result.Wind?.Speed mm/h</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <div>Õhurõhk</div>
+                                <div>@Model.Result.Main?.Pressure mmHg</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
