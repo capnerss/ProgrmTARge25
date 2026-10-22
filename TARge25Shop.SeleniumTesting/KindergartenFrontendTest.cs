@@ -336,6 +336,60 @@ namespace TARge25Shop.SeleniumTesting
         }
 
 
+        [Fact]
+        [Order(14)]
+        public void Should_CreateKindergarten_WithZeroChildren_ApplyDefaultValueFour()
+        {
+            //ülesseade
+            IWebDriver driver = SetupAndNavigateSIndex();
+
+            //tegevus
+            IWebElement createInIndex = driver.FindElement(By.Id("CreateInIndex"));
+            createInIndex.Click();
+
+            string testGuid = Guid.NewGuid().ToString();
+            IWebElement cu_NameEntryKindergarten = driver.FindElement(By.Id("CU_NameEntryKindergarten"));
+            cu_NameEntryKindergarten.SendKeys(testGuid);
+
+            IWebElement cu_ShipTypeEntryKindergarten = driver.FindElement(By.Id("CU_ShipTypeEntryKindergarten"));
+            cu_ShipTypeEntryKindergarten.Clear();
+            cu_ShipTypeEntryKindergarten.SendKeys("0");
+
+            IWebElement cu_CrewEntryKindergarten = driver.FindElement(By.Id("CU_CrewEntryKindergarten"));
+            cu_CrewEntryKindergarten.Clear();
+            cu_CrewEntryKindergarten.SendKeys("Test");
+
+            IWebElement cu_EnginePowerEntryKindergarten = driver.FindElement(By.Id("CU_EnginePowerEntryKindergarten"));
+            cu_EnginePowerEntryKindergarten.Clear();
+            cu_EnginePowerEntryKindergarten.SendKeys("Test");
+
+            IWebElement cu_CreateKindergarten = driver.FindElement(By.Id("CU_CreateKindergarten"));
+            cu_CreateKindergarten.Click();
+            Thread.Sleep(500);
+
+            //kontroll
+            var table = driver.FindElement(By.Id("IndexTable"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+
+            string actualChildrenCount = "";
+            bool isFound = false;
+            foreach (var row in rows)
+            {
+                if (row.FindElement(By.Id("IndexNameKindergarten")).Text == testGuid)
+                {
+                    isFound = true;
+                    actualChildrenCount = row.FindElement(By.Id("IndexTypeKindergarten")).Text;
+                    break;
+                }
+            }
+            driver.Quit();
+
+            Assert.True(isFound);
+            Assert.Equal("4", actualChildrenCount);
+        }
+
+
         private static IWebDriver SetupAndNavigateSIndex()
         {
             //firefoxi käskiv ja juhtiv draiver
