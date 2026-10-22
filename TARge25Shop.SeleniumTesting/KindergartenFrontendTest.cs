@@ -1,19 +1,18 @@
-﻿using OpenQA.Selenium;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Sdk;
+
 
 namespace TARge25Shop.SeleniumTesting
 {
-
+    [TestCaseOrderer("TARge25Shop.SeleniumTesting.PriorityOrderer", "TARge25Shop.SeleniumTesting")]
     public class KindergartenFrontendTests
     {
         public static string thisRunGuid { get; set; }
 
 
         [Fact]
-        [Order(5)]
+        [Order(9)]
         public void Should_NavigateToCreate_AddUniqueKindergarten_WithCorrectData_ReturnToIndex()
         {
             //ülesseade
@@ -65,18 +64,20 @@ namespace TARge25Shop.SeleniumTesting
 
             //kontroll
             //Assert.True(concreteName == indexNameKindergarten.Text);
-            Assert.True(true == doesItExist);
-            Assert.Equal(KindergartenNameData, thisRunGuid);
-            Assert.True(KindergartenTypeData == "10");
-            Assert.Equal(KindergartenCrewData, "666667");
+            Assert.True(doesItExist);
+            Assert.Equal(thisRunGuid, KindergartenNameData);
+            Assert.Equal("10", KindergartenTypeData);
+            Assert.Equal("666667", KindergartenCrewData);
+            Assert.Equal("12345", KindergartenBuiltAtData);
             Assert.True((thisRunGuid == KindergartenNameData)
                 && ("10" == KindergartenTypeData)
-                && ("666667" == KindergartenCrewData));
+                && ("666667" == KindergartenCrewData)
+                && ("12345" == KindergartenBuiltAtData));
         }
 
 
         [Fact]
-        [Order(6)]
+        [Order(10)]
         public void Should_NavigateToDetails_OfThisKindergarten_WithPreviouslyCorrectData()
         {
             //ülesseade
@@ -107,6 +108,14 @@ namespace TARge25Shop.SeleniumTesting
                     break;
                 }
             }
+
+            if (!isObjectFound)
+            {
+                driver.Quit();
+                Assert.True(isObjectFound);
+                return;
+            }
+
             //andmete kogumine pärast reloadi
             IWebElement details_KindergartenId = driver.FindElement(By.Id("id"));
             var details_id = details_KindergartenId.Text;
@@ -143,7 +152,7 @@ namespace TARge25Shop.SeleniumTesting
 
 
         [Fact]
-        [Order(7)]
+        [Order(11)]
         public void Should_UpdateDetails_OfThisKindergarten_WithNewData()
         {
             //ülesseade
@@ -174,6 +183,14 @@ namespace TARge25Shop.SeleniumTesting
                     break;
                 }
             }
+
+            if (!doesItExist)
+            {
+                driver.Quit();
+                Assert.True(doesItExist);
+                return;
+            }
+
             //sisestatavad andmed
             InsertKindergartenData(driver, thisRunGuid, true);
 
@@ -210,15 +227,15 @@ namespace TARge25Shop.SeleniumTesting
             Assert.NotNull(KindergartenNameData);
             Assert.Equal(thisRunGuid, KindergartenNameData);
             Assert.False(string.IsNullOrEmpty(KindergartenTypeData));
-            Assert.NotEqual(KindergartenTypeData, "10");
-            Assert.True(KindergartenTypeData == "40");
-            Assert.False(string.IsNullOrEmpty(KindergartenTypeData));
-            //kontrolli kõik teised andmed ka üle põhjalikult.
+            Assert.NotEqual("10", KindergartenTypeData);
+            Assert.Equal("40", KindergartenTypeData);
+            Assert.Equal("444", KindergartenCrewData);
+            Assert.Equal("67890", KindergartenBuiltAtData);
         }
 
 
         [Fact]
-        [Order(8)]
+        [Order(12)]
         public void Should_DeleteThisKindergarten_FromAppVIADeleteView()
         {
             //ülesseade
@@ -249,9 +266,19 @@ namespace TARge25Shop.SeleniumTesting
                     break;
                 }
             }
+
+            if (!doesItExist)
+            {
+                driver.Quit();
+                Assert.True(doesItExist);
+                return;
+            }
+
             var clickthisbutton = driver.FindElement(By.Id("Delete_Delete"));
             clickthisbutton.Click();
-            bool isDeleted = false;
+            Thread.Sleep(500);
+
+            bool isFoundAfterDelete = false;
             table = driver.FindElement(By.Id("IndexTable"));
             rows = table.FindElements(By.TagName("tr")).ToList();
             rows.RemoveAt(0);
@@ -260,17 +287,13 @@ namespace TARge25Shop.SeleniumTesting
                 var nameElement = row.FindElement(By.Id("IndexNameKindergarten")).Text;
                 if (nameElement == thisRunGuid)
                 {
-                    isDeleted = false;
+                    isFoundAfterDelete = true;
                     break;
                 }
-                else
-                {
-                    isDeleted = true;
-                }
             }
+            driver.Quit();
 
-            Assert.True(isDeleted);
-            Assert.False(!isDeleted);
+            Assert.False(isFoundAfterDelete);
         }
 
 
