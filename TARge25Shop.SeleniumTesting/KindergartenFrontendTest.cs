@@ -9,6 +9,7 @@ namespace TARge25Shop.SeleniumTesting
     public class KindergartenFrontendTests
     {
         public static string thisRunGuid { get; set; }
+        public static string secondRunGuid { get; set; }
 
 
         [Fact]
@@ -348,6 +349,8 @@ namespace TARge25Shop.SeleniumTesting
             createInIndex.Click();
 
             string testGuid = Guid.NewGuid().ToString();
+            secondRunGuid = testGuid;
+
             IWebElement cu_NameEntryKindergarten = driver.FindElement(By.Id("CU_NameEntryKindergarten"));
             cu_NameEntryKindergarten.SendKeys(testGuid);
 
@@ -387,6 +390,55 @@ namespace TARge25Shop.SeleniumTesting
 
             Assert.True(isFound);
             Assert.Equal("4", actualChildrenCount);
+        }
+
+
+        [Fact]
+        [Order(15)]
+        public void Should_NavigateToDetails_AndReturnToIndex_ViaBackButton()
+        {
+            //ülesseade
+            IWebDriver driver = SetupAndNavigateSIndex();
+
+			//tegevus
+			var table = driver.FindElement(By.Id("IndexTable"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+
+            bool isObjectFound = false;
+            foreach (var row in rows)
+            {
+                var locatedElement = row.FindElement(By.Id("IndexNameKindergarten"));
+				//if (locatedElement.Text == thisRunGuid)
+				if (locatedElement.Text == secondRunGuid)
+                {
+                    isObjectFound = true;
+                    var rowActions = row.FindElement(By.Id("IndexActionsKindergarten"));
+                    var button = rowActions.FindElement(By.Id("IndexKindergartenDetails"));
+                    button.Click();
+                    Thread.Sleep(500);
+                    break;
+                }
+            }
+
+            if (!isObjectFound)
+            {
+                driver.Quit();
+                Assert.True(isObjectFound);
+                return;
+            }
+
+            IWebElement backButton = driver.FindElement(By.Id("back"));
+            backButton.Click();
+            Thread.Sleep(500);
+            IWebElement indexTable = driver.FindElement(By.Id("IndexTable"));
+            IWebElement createButton = driver.FindElement(By.Id("CreateInIndex"));
+            driver.Quit();
+            //driver.Close()
+
+			//kontroll
+			Assert.NotNull(indexTable);
+            Assert.NotNull(createButton);
         }
 
 
