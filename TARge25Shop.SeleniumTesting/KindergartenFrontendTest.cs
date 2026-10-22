@@ -297,6 +297,45 @@ namespace TARge25Shop.SeleniumTesting
         }
 
 
+        [Fact]
+        [Order(13)]
+        public void Should_CancelCreate_WhenClickingBack_ReturnToIndexWithoutSaving()
+        {
+            //ülesseade
+            IWebDriver driver = SetupAndNavigateSIndex();
+
+            //tegevus
+            IWebElement createInIndex = driver.FindElement(By.Id("CreateInIndex"));
+            createInIndex.Click();
+
+            string testCancelGuid = Guid.NewGuid().ToString();
+            IWebElement cu_NameEntryKindergarten = driver.FindElement(By.Id("CU_NameEntryKindergarten"));
+            cu_NameEntryKindergarten.SendKeys(testCancelGuid);
+
+            IWebElement backButton = driver.FindElement(By.Id("CU_Back"));
+            backButton.Click();
+            Thread.Sleep(500);
+
+            //kontroll
+            var table = driver.FindElement(By.Id("IndexTable"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+            bool isFound = false;
+            foreach (var row in rows)
+            {
+                var nameElement = row.FindElement(By.Id("IndexNameKindergarten")).Text;
+                if (nameElement == testCancelGuid)
+                {
+                    isFound = true;
+                    break;
+                }
+            }
+            driver.Quit();
+
+            Assert.False(isFound);
+        }
+
+
         private static IWebDriver SetupAndNavigateSIndex()
         {
             //firefoxi käskiv ja juhtiv draiver
