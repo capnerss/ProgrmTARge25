@@ -442,6 +442,85 @@ namespace TARge25Shop.SeleniumTesting
         }
 
 
+        [Fact]
+        [Order(16)]
+        public void Should_CancelDelete_WhenClickingBack_KeepKindergartenInApp()
+        {
+            //ülesseade
+            IWebDriver driver = SetupAndNavigateSIndex();
+
+            //tegevus
+            var table = driver.FindElement(By.Id("IndexTable"));
+            List<IWebElement> rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+
+            bool isObjectFound = false;
+            foreach (var row in rows)
+            {
+                var locatedElement = row.FindElement(By.Id("IndexNameKindergarten"));
+                if (locatedElement.Text == secondRunGuid)
+                {
+                    isObjectFound = true;
+                    var rowActions = row.FindElement(By.Id("IndexActionsKindergarten"));
+                    var button = rowActions.FindElement(By.Id("IndexKindergartenDelete"));
+                    button.Click();
+                    Thread.Sleep(500);
+                    break;
+                }
+            }
+
+            if (!isObjectFound)
+            {
+                driver.Quit();
+                Assert.True(isObjectFound);
+                return;
+            }
+
+            //kontroll, et oleme Delete lehel
+            IWebElement deleteButton = driver.FindElement(By.Id("Delete_Delete"));
+            Assert.NotNull(deleteButton);
+
+            //vajutame Back nuppu (katkestame kustutamise)
+            IWebElement backButton = driver.FindElement(By.LinkText("Back"));
+            backButton.Click();
+            Thread.Sleep(500);
+
+            //kontroll Index lehel, et kirje on alles
+            table = driver.FindElement(By.Id("IndexTable"));
+            rows = table.FindElements(By.TagName("tr")).ToList();
+            rows.RemoveAt(0);
+
+            bool stillExists = false;
+            foreach (var row in rows)
+            {
+                var nameElement = row.FindElement(By.Id("IndexNameKindergarten")).Text;
+                if (nameElement == secondRunGuid)
+                {
+                    stillExists = true;
+                    break;
+                }
+            }
+
+            //lõplik puhastus: kustutame ajutise kirje
+            foreach (var row in rows)
+            {
+                if (row.FindElement(By.Id("IndexNameKindergarten")).Text == secondRunGuid)
+                {
+                    var rowActions = row.FindElement(By.Id("IndexActionsKindergarten"));
+                    rowActions.FindElement(By.Id("IndexKindergartenDelete")).Click();
+                    Thread.Sleep(500);
+                    driver.FindElement(By.Id("Delete_Delete")).Click();
+                    Thread.Sleep(500);
+                    break;
+                }
+            }
+            driver.Quit();
+
+            //kontroll
+            Assert.True(stillExists);
+        }
+
+
         private static IWebDriver SetupAndNavigateSIndex()
         {
             //firefoxi käskiv ja juhtiv draiver
