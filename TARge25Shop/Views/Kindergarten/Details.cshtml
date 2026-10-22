@@ -8,51 +8,51 @@
     <dl class="row">
         <div class="form-group row">
             <label asp-for="Id" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.Id)
+            <span id="id">@Html.DisplayFor(model => model.Id)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.GroupName)
+            <span id="name">@Html.DisplayFor(model => model.GroupName)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.ChildrenCount)
+            <span id="type">@Html.DisplayFor(model => model.ChildrenCount)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="KindergartenName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.KindergartenName)
+            <span id="crew">@Html.DisplayFor(model => model.KindergartenName)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.TeacherName)
+            <span id="power">@Html.DisplayFor(model => model.TeacherName)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.CreatedAt)
+            <span id="cat">@Html.DisplayFor(model => model.CreatedAt)</span>
         </div>
     </dl>
 
     <dl class="row">
         <div class="form-group row">
             <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.UpdatedAt)
+            <span id="uat">@Html.DisplayFor(model => model.UpdatedAt)</span>
         </div>
     </dl>
 
-    <a asp-action="Index" asp-controller="kindergarten" class="btn btn-success">Back</a>
+    <a asp-action="Index" asp-controller="kindergarten" id="back" class="btn btn-success">Back</a>
 </div>

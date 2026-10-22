@@ -106,7 +106,7 @@ namespace TARge25Shop.SeleniumTesting
                 }
             }
             driver.Quit();
-            driver.Close();
+            
 
             //kontroll
             //Assert.True(concreteName == indexNameSpaceship.Text);
@@ -169,7 +169,7 @@ namespace TARge25Shop.SeleniumTesting
             var details_power = details_SpaceshipPower.Text;
 
             driver.Quit();
-            driver.Close();
+            
             //kontroll
             Assert.True(isObjectFound);
             Assert.NotNull(details_id);
@@ -247,7 +247,7 @@ namespace TARge25Shop.SeleniumTesting
                 }
             }
             driver.Quit();
-            driver.Close();
+            
 
             ////arvuti tudub
             //Thread.Sleep(1000);
