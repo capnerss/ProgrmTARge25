@@ -1,9 +1,5 @@
 @model IEnumerable<TARge25Shop.Models.Kindergarten.KindergartenIndexViewModel>
 
-<div>
-    <a asp-action="create" asp-controller="kindergarten" type="submit" class="btn btn-primary">Create</a>
-</div>
-
 @{
     short rowNumber = 1;
 }
@@ -44,4 +40,7 @@
             }
         </tbody>
     </table>
+    <div>
+        <a asp-action="create" asp-controller="kindergarten" type="submit" class="btn btn-primary">Create</a>
+    </div>
 </form>
