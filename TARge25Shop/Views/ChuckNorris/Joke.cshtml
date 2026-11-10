@@ -1,43 +1,60 @@
-﻿@model TARge25Shop.Models.ChuckNorris.JokeViewModel
+@model TARge25Shop.Models.ChuckNorris.JokeViewModel
 
-<div class="container">
-    <div class="h1">Chuck Norris Joke Details</div>
-    <hr />
-    <dl>
-        <div>
-            <label asp-for="Id" class="col-sm-2"></label>
-            @Html.DisplayFor(model => model.Id)
-        </div>
+@{
+    ViewData["Title"] = "Chuck Norris Joke Details";
+}
 
-        <div>
-            <label asp-for="Categories" class="col-sm-2"></label>
-            @Html.DisplayFor(model => model.Categories)
-        </div>
-        <div>
-            <label asp-for="CreatedAt" class="col-sm-2"></label>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </div>
-        <div>
-            <label asp-for="UpdatedAt" class="col-sm-2"></label>
-            @Html.DisplayFor(model => model.UpdatedAt)
-		</div>
-            <label asp-for="IconUrl" class="col-sm-2"></label>
-            <img src="@Model.IconUrl" alt="Chuck Norris Icon" />
-        </div>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="app-card">
+            <div class="app-page-header">
+                <div class="header-title-group">
+                    <h1 class="h2"><i class="bi bi-emoji-laughing text-warning"></i> Chuck Norris Joke</h1>
+                    <small class="text-muted">Freshly retrieved fact from the API</small>
+                </div>
+                <div>
+                    <span class="badge bg-light text-dark border p-2">
+                        <i class="bi bi-tag me-1"></i>@(Model.Categories != null && Model.Categories.Any() ? string.Join(", ", Model.Categories) : "General")
+                    </span>
+                </div>
+            </div>
 
-        <div>
-            <label asp-for="Url" class="col-sm-2"></label>
-            <a href="@Html.DisplayFor(model => model.Url)">@Html.DisplayFor(model => model.Url)</a>
-        </div>
+            <!-- Joke Quote Box -->
+            <div class="p-4 mb-4 rounded-4" style="background: var(--brand-gradient-soft); border-left: 5px solid var(--brand-orange);">
+                <div class="d-flex align-items-start gap-3">
+                    @if (!string.IsNullOrEmpty(Model.IconUrl))
+                    {
+                        <img src="@Model.IconUrl" alt="Chuck Norris" class="rounded-circle shadow-sm" style="width: 50px; height: 50px;" />
+                    }
+                    <div>
+                        <p class="fs-5 fw-semibold mb-0" style="color: var(--text-main);">
+                            &ldquo;@Model.Value&rdquo;
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-        <div>
-            <label asp-for="Value" class="col-sm-2"></label>
-            @Html.DisplayFor(model => model.Value)
-        </div>
-    </dl>
+            <dl class="row text-muted small mb-4">
+                <dt class="col-sm-3">Joke ID:</dt>
+                <dd class="col-sm-9 font-monospace">@Model.Id</dd>
 
-<a asp-action="Index" asp-controller="ChuckNorris" class="btn btn-secondary">Back</a>
-    <a asp-action="GetRandomJoke" asp-controller="ChuckNorris" class="btn btn-primary">
-        Another joke
-    </a>
+                <dt class="col-sm-3">Created Date:</dt>
+                <dd class="col-sm-9">@Model.CreatedAt</dd>
+
+                <dt class="col-sm-3">Source URL:</dt>
+                <dd class="col-sm-9">
+                    <a href="@Model.Url" target="_blank" rel="noopener noreferrer">@Model.Url <i class="bi bi-box-arrow-up-right small"></i></a>
+                </dd>
+            </dl>
+
+            <div class="d-flex gap-2">
+                <a asp-action="Index" asp-controller="ChuckNorris" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+                <a asp-action="GetRandomJoke" asp-controller="ChuckNorris" class="btn btn-primary">
+                    <i class="bi bi-arrow-repeat"></i> Another Joke
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

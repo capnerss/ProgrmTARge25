@@ -1,58 +1,75 @@
-﻿@model TARge25Shop.Models.Spaceship.SpaceshipDetailsViewModel
+@model TARge25Shop.Models.Spaceship.SpaceshipDetailsViewModel
 
-<h1>Details</h1>
+@{
+    ViewData["Title"] = "Spaceship Details";
+}
 
-<div>
-    <h4>Spaceship</h4>
-    <hr />
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="Id"  class="col-sm-2 col-form-label"></label>
-            <span id="id">@Html.DisplayFor(model => model.Id)</span>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="app-card">
+            <div class="app-page-header">
+                <div class="header-title-group">
+                    <h1 class="h2"><i class="bi bi-rocket-takeoff text-warning"></i> Spaceship Details</h1>
+                    <small class="text-muted">Detailed technical specifications and crew capacity.</small>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="row py-2 border-bottom">
+                    <label asp-for="Id" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="id" class="font-monospace">@Html.DisplayFor(model => model.Id)</span>
+                    </div>
+                </div>
+
+                <div class="row py-2 border-bottom">
+                    <label asp-for="Name" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="name" class="fs-5 fw-bold" style="color: var(--brand-orange);">@Html.DisplayFor(model => model.Name)</span>
+                    </div>
+                </div>
+
+                <div class="row py-2 border-bottom">
+                    <label asp-for="ShipType" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="type" class="badge bg-light text-dark border p-2">@Html.DisplayFor(model => model.ShipType)</span>
+                    </div>
+                </div>
+
+                <div class="row py-2 border-bottom">
+                    <label asp-for="Crew" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="crew" class="badge bg-warning text-dark p-2"><i class="bi bi-people-fill me-1"></i>@Html.DisplayFor(model => model.Crew)</span>
+                    </div>
+                </div>
+
+                <div class="row py-2 border-bottom">
+                    <label asp-for="EnginePower" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="power" class="fw-semibold"><i class="bi bi-lightning-charge text-warning me-1"></i>@Html.DisplayFor(model => model.EnginePower) kW</span>
+                    </div>
+                </div>
+
+                <div class="row py-2 border-bottom">
+                    <label asp-for="CreatedAt" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="cat" class="text-muted">@Html.DisplayFor(model => model.CreatedAt)</span>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <label asp-for="UpdatedAt" class="col-sm-3 col-form-label fw-bold text-muted"></label>
+                    <div class="col-sm-9 d-flex align-items-center">
+                        <span id="uat" class="text-muted">@Html.DisplayFor(model => model.UpdatedAt)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index" asp-controller="spaceship" id="back" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Fleet
+                </a>
+            </div>
         </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="Name"  class="col-sm-2 col-form-label"></label>
-            <span id="name">@Html.DisplayFor(model => model.Name)</span>
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="ShipType"  class="col-sm-2 col-form-label"></label>
-            <span id="type">@Html.DisplayFor(model => model.ShipType)</span>
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="Crew"  class="col-sm-2 col-form-label"></label>
-            <span id="crew">@Html.DisplayFor(model => model.Crew)</span>
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="EnginePower"  class="col-sm-2 col-form-label"></label>
-            <span id="power">@Html.DisplayFor(model => model.EnginePower)</span>
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="CreatedAt"  class="col-sm-2 col-form-label"></label>
-            <span id="cat">@Html.DisplayFor(model => model.CreatedAt)</span>
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="UpdatedAt"  class="col-sm-2 col-form-label"></label>
-            <span id="uat"> @Html.DisplayFor(model => model.UpdatedAt)</span>
-        </div>
-    </dl>
-
-    <a asp-action="Index" asp-controller="spaceship" id="back" class="btn btn-success">Back</a>
+    </div>
 </div>

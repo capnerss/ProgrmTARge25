@@ -1,8 +1,144 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Banner -->
+<div class="hero-banner text-center text-md-start">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <!--  <div class="hero-pill">
+                <i class="bi bi-stars"></i> Modern Orange &amp; White Edition 
+            </div> -->
+            <h1 class="display-5 fw-bold mb-3" style="color: var(--text-main);">
+                Welcome to <span style="background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TARge25Shop</span>
+            </h1>
+            <p class="lead text-muted mb-4" style="max-width: 620px;">
+                Your all-in-one management suite for Spaceships, Real Estate, Kindergartens, Cocktail Discovery, Chuck Norris Jokes, and Secure Email Services.
+            </p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+                <a asp-controller="Spaceship" asp-action="Index" class="btn btn-primary">
+                    <i class="bi bi-rocket-takeoff"></i> Explore Spaceships
+                </a>
+                <a asp-controller="Emails" asp-action="Index" class="btn btn-outline-primary">
+                    <i class="bi bi-envelope"></i> Send an Email
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 d-none d-lg-flex justify-content-center">
+            <div style="width: 140px; height: 140px; border-radius: 30px; background: var(--brand-gradient); display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 36px rgba(255, 107, 0, 0.35);">
+                <i class="bi bi-bag-heart-fill" style="font-size: 4rem; color: #ffffff;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modules Grid -->
+<div class="row g-4 mb-4">
+    <!-- Spaceships -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-rocket-takeoff"></i>
+                </div>
+                <h3 class="feature-title">Spaceships</h3>
+                <p class="feature-description">
+                    Track spaceship fleets, specifications, engine outputs, crew rosters, and maintenance dates.
+                </p>
+            </div>
+            <a asp-controller="Spaceship" asp-action="Index" class="btn btn-outline-primary w-100">
+                Manage Spaceships <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Kindergarten -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-backpack"></i>
+                </div>
+                <h3 class="feature-title">Kindergarten</h3>
+                <p class="feature-description">
+                    Organize kindergarten classes, children registrations, teacher assignments, and timestamps.
+                </p>
+            </div>
+            <a asp-controller="Kindergarten" asp-action="Index" class="btn btn-outline-primary w-100">
+                Manage Kindergartens <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Real Estate -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-buildings"></i>
+                </div>
+                <h3 class="feature-title">Real Estate</h3>
+                <p class="feature-description">
+                    Browse property portfolios, room configurations, architectural types, and image galleries.
+                </p>
+            </div>
+            <a asp-controller="RealEstate" asp-action="Index" class="btn btn-outline-primary w-100">
+                Browse Real Estate <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Drinks & Cocktails -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-cup-straw"></i>
+                </div>
+                <h3 class="feature-title">Drinks &amp; Cocktails</h3>
+                <p class="feature-description">
+                    Search the cocktail database for drink recipes, glassware, ingredients, and mixing instructions.
+                </p>
+            </div>
+            <a asp-controller="Drinks" asp-action="Index" class="btn btn-outline-primary w-100">
+                Search Drinks <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chuck Norris Jokes -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-emoji-laughing"></i>
+                </div>
+                <h3 class="feature-title">Chuck Norris Jokes</h3>
+                <p class="feature-description">
+                    Generate instant Chuck Norris facts and jokes fetched live from the Chuck Norris API.
+                </p>
+            </div>
+            <a asp-controller="ChuckNorris" asp-action="Index" class="btn btn-outline-primary w-100">
+                Get a Joke <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Emails Service -->
+    <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+            <div>
+                <div class="feature-icon-wrapper">
+                    <i class="bi bi-envelope-paper-heart"></i>
+                </div>
+                <h3 class="feature-title">Email Service</h3>
+                <p class="feature-description">
+                    Dispatch secure notifications, verification tokens, and attachments powered by User Secrets.
+                </p>
+            </div>
+            <a asp-controller="Emails" asp-action="Index" class="btn btn-outline-primary w-100">
+                Open Email Dispatcher <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
 </div>

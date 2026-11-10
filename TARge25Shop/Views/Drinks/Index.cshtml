@@ -1,27 +1,41 @@
-﻿@model TARge25Shop.Models.Drinks.DrinkSearchViewModel
+@model TARge25Shop.Models.Drinks.DrinkSearchViewModel
 
+@{
+    ViewData["Title"] = "Search Cocktails";
+}
 
-<h1>Search</h1>
-
-<div class="container">
-    <form asp-action="SearchDrink" method="post">
-        <div class="container">
-            <div class="form-group col-md-5 mt-6">
-                <h6>Type in the name of the cocktail:</h6>
-                <input asp-for="Drink" class="form-control" />
-                <span asp-validation-for="Drink" class="text-danger"></span>
-                @if (ViewBag.Drinks != null)
-                {
-                    <span class="text-danger">
-                        @ViewBag.Drinks
-                    </span>
-                }
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="app-card">
+            <div class="app-page-header">
+                <div class="header-title-group">
+                    <h1 class="h2"><i class="bi bi-cup-straw text-warning"></i> Search Cocktails</h1>
+                    <small class="text-muted">Explore cocktail recipes, required glassware, and preparation instructions.</small>
+                </div>
             </div>
+
+            <form asp-action="SearchDrink" method="post">
+                <div class="mb-3">
+                    <label asp-for="Drink" class="form-label fw-bold">Cocktail Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                        <input asp-for="Drink" class="form-control border-start-0" placeholder="e.g. Margarita, Mojito, Martini..." />
+                    </div>
+                    <span asp-validation-for="Drink" class="text-danger small mt-1 d-block"></span>
+                    @if (ViewBag.Drinks != null)
+                    {
+                        <div class="alert alert-warning mt-2 mb-0 py-2 small">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> @ViewBag.Drinks
+                        </div>
+                    }
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search Drinks
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="container">
-            <div class="form-group col-md-5">
-                <button type="submit" class="btn btn-primary mt-2">Search</button>
-            </div>
-        </div>
-    </form>
-</div> 
+    </div>
+</div>

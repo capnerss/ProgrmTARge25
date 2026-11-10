@@ -1,109 +1,66 @@
-﻿@model TARge25Shop.Models.Drinks.DrinkViewModel
+@model TARge25Shop.Models.Drinks.DrinkViewModel
 
-<div class="container">
-    <h2>Your chosen cocktail: @Html.DisplayFor(model => model.Drink)</h2>
-    <hr />
-    <img src="@Model.StrDrinkThumb"
-         alt="@Model.Drink"
-         class="img-thumbnail"
-         style="max-width: 350px;" />
-    <dl class="row text-dark">
-        <div>
-            <dt class="col-sm-2">
-                Drink Id:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IdDrink)
-            </dd>
+@{
+    ViewData["Title"] = Model.Drink;
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="app-card">
+            <div class="app-page-header">
+                <div class="header-title-group">
+                    <h1 class="h2"><i class="bi bi-cup-straw text-warning"></i> @Model.Drink</h1>
+                    <small class="text-muted">Cocktail Recipe &amp; Ingredients</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="badge bg-warning text-dark py-2 px-3 fw-bold">
+                        <i class="bi bi-droplet-half me-1"></i>@Model.StrAlcoholic
+                    </span>
+                    <span class="badge bg-light text-dark border py-2 px-3 fw-bold">
+                        <i class="bi bi-cup me-1"></i>@Model.StrGlass
+                    </span>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-5 text-center">
+                    <img src="@Model.StrDrinkThumb"
+                         alt="@Model.Drink"
+                         class="img-fluid rounded-4 shadow-sm"
+                         style="max-width: 100%; border: 2px solid var(--brand-orange-border);" />
+                </div>
+                <div class="col-md-7">
+                    <h4 class="mb-3" style="color: var(--brand-orange);"><i class="bi bi-list-check me-2"></i>Instructions</h4>
+                    <div class="p-3 rounded-3 mb-4" style="background: var(--brand-orange-light); border-left: 4px solid var(--brand-orange);">
+                        <p class="mb-0" style="line-height: 1.6;">@Model.StrInstructions</p>
+                    </div>
+
+                    <h4 class="mb-3" style="color: var(--brand-orange);"><i class="bi bi-basket me-2"></i>Ingredients</h4>
+                    <ul class="list-group list-group-flush border rounded-3">
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient1)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient1</span><span class="badge bg-light text-muted">@Model.StrMeasure1</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient2)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient2</span><span class="badge bg-light text-muted">@Model.StrMeasure2</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient3)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient3</span><span class="badge bg-light text-muted">@Model.StrMeasure3</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient4)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient4</span><span class="badge bg-light text-muted">@Model.StrMeasure4</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient5)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient5</span><span class="badge bg-light text-muted">@Model.StrMeasure5</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient6)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient6</span><span class="badge bg-light text-muted">@Model.StrMeasure6</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient7)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient7</span><span class="badge bg-light text-muted">@Model.StrMeasure7</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient8)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient8</span><span class="badge bg-light text-muted">@Model.StrMeasure8</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient9)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient9</span><span class="badge bg-light text-muted">@Model.StrMeasure9</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient10)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient10</span><span class="badge bg-light text-muted">@Model.StrMeasure10</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient11)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient11</span><span class="badge bg-light text-muted">@Model.StrMeasure11</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient12)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient12</span><span class="badge bg-light text-muted">@Model.StrMeasure12</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient13)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient13</span><span class="badge bg-light text-muted">@Model.StrMeasure13</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient14)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient14</span><span class="badge bg-light text-muted">@Model.StrMeasure14</span></li> }
+                        @if (!string.IsNullOrWhiteSpace(Model.StrIngredient15)) { <li class="list-group-item d-flex justify-content-between"><span>@Model.StrIngredient15</span><span class="badge bg-light text-muted">@Model.StrMeasure15</span></li> }
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Search
+                </a>
+            </div>
         </div>
-        <div>
-            <dt class="col-sm-2">
-                Alcoholic:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrAlcoholic)
-            </dd>
-        </div>
-        <div>
-            <dt class="col-sm-2">
-                Glass:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrGlass)
-            </dd>
-        </div>
-        <div>
-            <dt class="col-sm-2">
-                Instructions:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrInstructions)
-            </dd>
-        </div>
-        <div>
-            <dt class="col-sm-2">
-                Ingredients and amount:
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure1)
-                @Html.DisplayFor(model => model.StrIngredient1)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure2)
-                @Html.DisplayFor(model => model.StrIngredient2)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure3)
-                @Html.DisplayFor(model => model.StrIngredient3)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure4)
-                @Html.DisplayFor(model => model.StrIngredient4)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure5)
-                @Html.DisplayFor(model => model.StrIngredient5)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure6)
-                @Html.DisplayFor(model => model.StrIngredient6)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure7)
-                @Html.DisplayFor(model => model.StrIngredient7)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure8)
-                @Html.DisplayFor(model => model.StrIngredient8)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure9)
-                @Html.DisplayFor(model => model.StrIngredient9)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure10)
-                @Html.DisplayFor(model => model.StrIngredient10)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure11)
-                @Html.DisplayFor(model => model.StrIngredient11)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure12)
-                @Html.DisplayFor(model => model.StrIngredient12)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure13)
-                @Html.DisplayFor(model => model.StrIngredient13)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure14)
-                @Html.DisplayFor(model => model.StrIngredient14)
-            </dd>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StrMeasure15)
-                @Html.DisplayFor(model => model.StrIngredient15)
-            </dd>
-        </div>
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
-    </dl>
+    </div>
+</div>

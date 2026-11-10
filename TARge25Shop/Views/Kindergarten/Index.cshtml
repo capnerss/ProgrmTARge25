@@ -1,47 +1,57 @@
 @model IEnumerable<TARge25Shop.Models.Kindergarten.KindergartenIndexViewModel>
 
-<div>
-    <a asp-action="create" asp-controller="kindergarten" type="submit" class="btn btn-primary">Create</a>
-</div>
-
 @{
+    ViewData["Title"] = "Kindergartens";
     short rowNumber = 1;
 }
 
-<div class="h1">
-    Kindergartens
+<div class="app-card">
+    <div class="app-page-header">
+        <div class="header-title-group">
+            <h1 class="h2"><i class="bi bi-backpack text-warning"></i> Kindergartens</h1>
+            <small class="text-muted">Manage group registrations, children counts, and teacher staff.</small>
+        </div>
+        <div>
+            <a asp-action="create" asp-controller="kindergarten" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Create Kindergarten
+            </a>
+        </div>
+    </div>
+
+    <form method="get">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nr</th>
+                        <th scope="col">Group Name</th>
+                        <th scope="col">Children Count</th>
+                        <th scope="col">Kindergarten</th>
+                        <th scope="col">Teacher</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var kindergarten in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold text-muted">@rowNumber</td>
+                            <td class="fw-semibold">@kindergarten.GroupName</td>
+                            <td><span class="badge bg-warning text-dark"><i class="bi bi-people-fill me-1"></i>@kindergarten.ChildrenCount</span></td>
+                            <td>@kindergarten.KindergartenName</td>
+                            <td><i class="bi bi-person-badge text-muted me-1"></i>@kindergarten.TeacherName</td>
+                            <td>@kindergarten.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td class="text-end">
+                                <a asp-action="details" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                                <a asp-action="update" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-sm btn-primary">Update</a>
+                                <a asp-action="delete" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
+                        rowNumber += 1;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
 </div>
-<form method="get">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Nr</th>
-                <th scope="col">Group Name</th>
-                <th scope="col">Children Count</th>
-                <th scope="col">Kindergarten</th>
-                <th scope="col">Teacher</th>
-                <th scope="col">Created At</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var kindergarten in Model)
-            {
-                <tr>
-                    <td>@rowNumber</td>
-                    <td>@kindergarten.GroupName</td>
-                    <td>@kindergarten.ChildrenCount</td>
-                    <td>@kindergarten.KindergartenName</td>
-                    <td>@kindergarten.TeacherName</td>
-                    <td>@kindergarten.CreatedAt</td>
-                    <td>
-                        <a asp-action="details" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-primary">Details</a>
-                        <a asp-action="update" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-primary">Update</a>
-                        <a asp-action="delete" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
-                rowNumber += 1;
-            }
-        </tbody>
-    </table>
-</form>

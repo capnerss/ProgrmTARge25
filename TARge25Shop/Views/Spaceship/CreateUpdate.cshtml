@@ -1,59 +1,65 @@
-﻿@model TARge25Shop.Models.Spaceship.SpaceshipCreateUpdateViewModel
+@model TARge25Shop.Models.Spaceship.SpaceshipCreateUpdateViewModel
 
-@if (Model.Id.HasValue)
-{
-    <h1>
-        Update
-    </h1>
-}
-else
-{
-    <h1>
-        Create
-    </h1>
+@{
+    ViewData["Title"] = Model.Id.HasValue ? "Update Spaceship" : "Create Spaceship";
 }
 
-<form method="post" enctype="multipart/form-data">
-    <input asp-for="Id" type="hidden" />
-    <input asp-for="CreatedAt" type="hidden" />
-    <input asp-for="UpdatedAt" type="hidden" />
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="app-card">
+            <div class="app-page-header">
+                <div class="header-title-group">
+                    <h1 class="h2"><i class="bi bi-rocket-takeoff text-warning"></i> @(Model.Id.HasValue ? "Update Spaceship" : "Create Spaceship")</h1>
+                    <small class="text-muted">Enter spaceship specifications and crew capacity.</small>
+                </div>
+            </div>
 
-    <div class="form-group row">
-        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Name" id="CU_NameEntrySpaceShip" class="form-control" />
+            <form method="post" enctype="multipart/form-data">
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="CreatedAt" type="hidden" />
+                <input asp-for="UpdatedAt" type="hidden" />
+
+                <div class="mb-3 row">
+                    <label asp-for="Name" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Name" id="CU_NameEntrySpaceShip" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label asp-for="ShipType" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="ShipType" id="CU_ShipTypeEntrySpaceShip" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label asp-for="Crew" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="Crew" id="CU_CrewEntrySpaceShip" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mb-4 row">
+                    <label asp-for="EnginePower" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <input asp-for="EnginePower" id="CU_EnginePowerEntrySpaceShip" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    @if (Model.Id.HasValue)
+                    {
+                        <input asp-action="update" asp-controller="spaceship" id="CU_UpdateSpaceShip" type="submit" class="btn btn-primary" value="Update" />
+                    }
+                    else
+                    {
+                        <input asp-action="create" asp-controller="spaceship" id="CU_CreateSpaceShip" type="submit" class="btn btn-primary" value="Create" />
+                    }
+
+                    <a asp-action="Index" asp-controller="spaceship" id="CU_Back" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
         </div>
     </div>
-
-    <div class="form-group row">
-        <label asp-for="ShipType" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="ShipType" id="CU_ShipTypeEntrySpaceShip" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label asp-for="Crew" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Crew" id="CU_CrewEntrySpaceShip" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label asp-for="EnginePower" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="EnginePower" id="CU_EnginePowerEntrySpaceShip"  class="form-control" />
-        </div>
-    </div>
-
-    @if (Model.Id.HasValue)
-    {
-        <input asp-action="update" asp-controller="spaceship" id="CU_UpdateSpaceShip"  type="submit" class="btn btn-success" value="Update" />
-    }
-    else
-    {
-        <input asp-action="create" asp-controller="spaceship" id="CU_CreateSpaceShip"  type="submit" class="btn btn-success" value="Create" />
-    }
-
-    <a asp-action="Index" asp-controller="spaceship" id="CU_Back" class="btn btn-secondary">Back to List</a>
-</form>
+</div>

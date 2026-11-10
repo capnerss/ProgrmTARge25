@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TARge25Shop.ApplicationServices.Services;
+using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 
@@ -20,6 +21,8 @@ namespace TARge25Shop
 			builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddHttpClient<IChuckNorrisServices, ChuckNorrisServices>();
             builder.Services.AddScoped<IDrinkServices, DrinkServices>();
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddScoped<IEmailsServices, EmailsServices>();
 
             //on vaja alla laadida Microsoft.EntityFrameworkCore.SqlServer NuGet pakett,
             //et kasutada UseSqlServer meetodit
