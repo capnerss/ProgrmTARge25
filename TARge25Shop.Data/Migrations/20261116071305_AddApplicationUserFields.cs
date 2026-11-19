@@ -5,7 +5,7 @@
 namespace TARge25Shop.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ese : Migration
+    public partial class AddApplicationUserFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
